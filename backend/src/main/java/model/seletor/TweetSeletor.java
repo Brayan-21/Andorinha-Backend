@@ -8,6 +8,11 @@ public class TweetSeletor {
 	private String conteudo;
 	private Calendar data;
 	private Integer idUsuario;
+	
+	public boolean possuiFiltro() {
+		return this.id != null || (this.conteudo != null && !this.conteudo.trim().isEmpty());
+	}
+	
 	public Integer getId() {
 		return id;
 	}

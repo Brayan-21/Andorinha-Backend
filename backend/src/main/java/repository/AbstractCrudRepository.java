@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 import model.exceptions.ErroAoConectarNaBaseException;
@@ -16,6 +18,9 @@ public abstract class AbstractCrudRepository {
 	
 	@Resource(name = "andorinhaDS")
 	protected DataSource ds;
+	
+	@PersistenceContext
+	protected EntityManager em;
 	
 	protected Connection abrirConexao() throws ErroAoConectarNaBaseException {
 		try {

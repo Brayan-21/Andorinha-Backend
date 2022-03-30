@@ -13,6 +13,10 @@ public class ComentarioSeletor {
     private Integer limite; //10
     private Integer pagina; //3
     
+    public boolean possuiFiltro() {
+    	return this.id != null || (this.conteudo != null && !this.conteudo.trim().isEmpty());
+    }
+    
 	public Integer getId() {
 		return id;
 	}

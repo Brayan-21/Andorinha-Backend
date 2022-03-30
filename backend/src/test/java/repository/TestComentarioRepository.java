@@ -25,7 +25,7 @@ import runner.DatabaseHelper;
 public class TestComentarioRepository {
 	
 	private static final int ID_TWEET_CONSULTA = 1;
-	private static final int ID_COMENTARIO_CONSULTA = 1;
+	private static final int ID_COMENTARIO_CONSULTA = 6;
 	private static final int ID_USUARIO_CONSULTA = 4;
 	
 	private static final long DELTA_MILIS = 500;
@@ -71,7 +71,7 @@ public class TestComentarioRepository {
 		Comentario c =  this.comentarioRepository.consultar(ID_COMENTARIO_CONSULTA);
 		
 		assertThat( c ).isNotNull();
-		assertThat( c.getConteudo() ).isEqualTo("Comentario 1");
+		assertThat( c.getConteudo() ).isEqualTo("Comentario 6");
 		assertThat( c.getId() ).isEqualTo(ID_COMENTARIO_CONSULTA);
 		assertThat( c.getUsuario() ).isNotNull();
 		assertThat( c.getTweet() ).isNotNull();
