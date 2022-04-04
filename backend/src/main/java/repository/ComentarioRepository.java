@@ -1,100 +1,57 @@
 package repository;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.persistence.Query;
-
 import model.Comentario;
+import model.dto.ComentarioDTO;
 import model.seletor.ComentarioSeletor;
+import repository.base.AbstractCrudRepository;
 
 @Stateless
-public class ComentarioRepository extends AbstractCrudRepository {
+public class ComentarioRepository extends AbstractCrudRepository<Comentario> {
 
-	public void inserir(Comentario comentario){
-		comentario.setData(Calendar.getInstance());
-		super.em.persist(comentario);
+	public List<Comentario> listarTodos() {
+		return pesquisar(new ComentarioSeletor());
 	}
 
-	public void atualizar(Comentario comentario){
-		comentario.setData(Calendar.getInstance());
-		super.em.merge(comentario);
-	}
-
-	public void remover(int id){
-		Comentario c = this.consultar(id);
-		super.em.remove(c);
-	}
-
-	public Comentario consultar(int id){
-		
-		return super.em.find(Comentario.class, id);
-	}
-
-	public List<Comentario> pesquisar(ComentarioSeletor seletor){
-	
-		StringBuilder jpql = new StringBuilder();
-		jpql.append("select c from Comentario c");
-		
-		this.criarFiltro(jpql, seletor);
-		
-		Query query = super.em.createQuery(jpql.toString());
-		
-		this.adicionarParametros(query, seletor);
-
-		return query.getResultList();
+	public List<Comentario> pesquisar(ComentarioSeletor seletor) {
+		return super.createEntityQuery()
+				.innerJoinFetch("usuario")
+				.innerJoinFetch("tweet")
+				.equal("id", seletor.getId())
+				.equal("usuario.id", seletor.getIdUsuario())
+				.equal("tweet.id", seletor.getIdTweet())
+				.like("conteudo", seletor.getConteudo())
+				.equal("data", seletor.getData())
+				.setFirstResult(seletor.getOffset())
+				.setMaxResults(seletor.getLimite())
+				.list();
 	}
 	
-	public void criarFiltro(StringBuilder jpql, ComentarioSeletor seletor) {
-		
-		if(seletor.possuiFiltro()) {
-			
-			jpql.append("where ");
-			Boolean primeiro = true;
-			if(seletor.getId() != null) {
-				jpql.append("c.id = :id");
-			}
-			
-			if(seletor.getConteudo() != null && !seletor.getConteudo().trim().isEmpty()) {
-				if(!primeiro) {
-					jpql.append("and ");
-				}
-				jpql.append("c.conteudo like :conteudo");
-			}
-		}
+	public List<ComentarioDTO> pesquisarDTO(ComentarioSeletor seletor) {
+		return super.createTupleQuery()
+					.select("id", "tweet.id as idTweet", "usuario.id as idUsuario", "usuario.nome as nomeUsuario", "data", "conteudo")
+					.join("usuario")
+					.join("tweet")
+					.equal("id", seletor.getId())
+					.equal("usuario.id", seletor.getIdUsuario())
+					.equal("tweet.id", seletor.getIdTweet())
+					.like("conteudo", seletor.getConteudo())
+					.equal("data", seletor.getData())
+					.setFirstResult(seletor.getOffset())
+					.setMaxResults(seletor.getLimite())
+					.list(ComentarioDTO.class);
 	}
 	
-	public void adicionarParametros(Query query, ComentarioSeletor seletor) {
-		
-		if(seletor.possuiFiltro()) {
-			if(seletor.getId() != null) {
-				query.setParameter("id", seletor.getId());
-			}
-			
-			if(seletor.getConteudo() != null && !seletor.getConteudo().trim().isEmpty()) {
-				query.setParameter("conteudo", String.format("%%%s%%", seletor.getConteudo()));
-			}
-		}
-		
+	public Long contar(ComentarioSeletor seletor) {
+		return super.createCountQuery()
+				.equal("id", seletor.getId())
+				.equal("usuario.id", seletor.getIdUsuario())
+				.equal("tweet.id", seletor.getIdTweet())
+				.like("conteudo", seletor.getConteudo())
+				.equal("data", seletor.getData())
+				.count();
 	}
 
-	public Long contar(ComentarioSeletor seletor){
-	
-		StringBuilder jpql = new StringBuilder();
-		jpql.append("select count(c) from Comentario c");
-		
-		this.criarFiltro(jpql, seletor);
-		
-		Query query = super.em.createQuery(jpql.toString());
-		
-		this.adicionarParametros(query, seletor);
-
-		return (Long)query.getSingleResult();
-	}
-
-	public List<Comentario> listarTodos(){
-	
-		return this.pesquisar(new ComentarioSeletor());
-	}
 }

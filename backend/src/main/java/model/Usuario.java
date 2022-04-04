@@ -14,7 +14,7 @@ public class Usuario {
 	
 	@Id
 	@SequenceGenerator(name = "seq_usuario", sequenceName = "seq_usuario", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario" )
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
 	@Column(name = "id")
 	private int id;
 	
@@ -23,7 +23,6 @@ public class Usuario {
 	
 	@Override
 	public String toString() {
-		
 		return "Usuario [id=" + id + ", nome=" + nome + "]";
 	}
 	

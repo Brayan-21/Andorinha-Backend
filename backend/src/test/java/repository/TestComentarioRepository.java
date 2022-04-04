@@ -25,8 +25,8 @@ import runner.DatabaseHelper;
 public class TestComentarioRepository {
 	
 	private static final int ID_TWEET_CONSULTA = 1;
-	private static final int ID_COMENTARIO_CONSULTA = 6;
-	private static final int ID_USUARIO_CONSULTA = 4;
+	private static final int ID_COMENTARIO_CONSULTA = 1;
+	private static final int ID_USUARIO_CONSULTA = 1;
 	
 	private static final long DELTA_MILIS = 500;
 	
@@ -50,7 +50,7 @@ public class TestComentarioRepository {
 		Tweet tweet = this.tweetRepository.consultar(ID_TWEET_CONSULTA);
 		
 		Comentario c = new Comentario();
-		c.setConteudo("Meu comentario de teste");
+		c.setConteudo("Meu comentário de teste");
 		c.setUsuario(user);
 		c.setTweet(tweet);
 		
@@ -71,7 +71,7 @@ public class TestComentarioRepository {
 		Comentario c =  this.comentarioRepository.consultar(ID_COMENTARIO_CONSULTA);
 		
 		assertThat( c ).isNotNull();
-		assertThat( c.getConteudo() ).isEqualTo("Comentario 6");
+		assertThat( c.getConteudo() ).isEqualTo("Comentário 1");
 		assertThat( c.getId() ).isEqualTo(ID_COMENTARIO_CONSULTA);
 		assertThat( c.getUsuario() ).isNotNull();
 		assertThat( c.getTweet() ).isNotNull();
@@ -111,8 +111,8 @@ public class TestComentarioRepository {
 							.isNotEmpty()
 							.hasSize(10)
 							.extracting("conteudo")
-							.containsExactlyInAnyOrder("Comentario 1", "Comentario 2", "Comentario 3", "Comentario 4", "Comentario 5",
-														"Comentario 6", "Comentario 7", "Comentario 8", "Comentario 9", "Comentario 10");
+							.containsExactlyInAnyOrder("Comentário 1", "Comentário 2", "Comentário 3", "Comentário 4", "Comentário 5",
+														"Comentário 6", "Comentário 7", "Comentário 8", "Comentário 9", "Comentário 10");
 		
 		comentarios.stream().forEach(t -> {
 			assertThat(t.getData()).isNotNull().isLessThan(Calendar.getInstance());
@@ -120,6 +120,15 @@ public class TestComentarioRepository {
 			assertThat(t.getTweet()).isNotNull();
 			assertThat(t.getTweet().getUsuario()).isNotNull();
 		});
+	}
+	
+	@Test
+	public void testa_listar_todos_os_comentarios_do_usuario_4() throws ErroAoConectarNaBaseException, ErroAoConsultarBaseException {
+		ComentarioSeletor seletor = new ComentarioSeletor();
+		seletor.setIdUsuario( 4 );
+		
+		List<Comentario> comentarios = this.comentarioRepository.pesquisar( seletor );
+		
 	}
 
 	@Test
@@ -133,10 +142,9 @@ public class TestComentarioRepository {
 		
 		assertThat( comentarios ).isNotNull()
 							.isNotEmpty()
-							.hasSize(10)
+							.hasSize(1)
 							.extracting("conteudo")
-							.containsExactlyInAnyOrder("Comentario 1", "Comentario 2", "Comentario 3", "Comentario 4", "Comentario 5",
-														"Comentario 6", "Comentario 7", "Comentario 8", "Comentario 9", "Comentario 10");
+							.containsExactly("Comentário 5");
 		
 		comentarios.stream().forEach(t -> {
 			assertThat(t.getData()).isNotNull().isLessThan(Calendar.getInstance());

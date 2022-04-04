@@ -37,7 +37,7 @@ public class TestUsuarioRepository {
 	@Test
 	public void testa_se_usuario_foi_inserido() throws ErroAoConectarNaBaseException, ErroAoConsultarBaseException {
 		Usuario user = new Usuario();
-		user.setNome("Usuario do Teste de Unidade 2");
+		user.setNome("Usuario do Teste de Unidade");
 		this.usuarioRepository.inserir(user);
 		
 		Usuario inserido = this.usuarioRepository.consultar(user.getId());
@@ -54,7 +54,7 @@ public class TestUsuarioRepository {
 		Usuario user = this.usuarioRepository.consultar(ID_USUARIO_CONSULTA);
 		
 		assertThat( user ).isNotNull();
-		assertThat( user.getNome() ).isEqualTo("Usuario 1");
+		assertThat( user.getNome() ).isEqualTo("Usuário 1");
 		assertThat( user.getId() ).isEqualTo(ID_USUARIO_CONSULTA);
 	}
 	
@@ -95,8 +95,8 @@ public class TestUsuarioRepository {
 							.isNotEmpty()
 							.hasSize(10)
 							.extracting("nome")
-							.containsExactlyInAnyOrder("Usuario 1", "Usuario 2",
-			                        "Usuario 3", "Usuario 4", "Usuario 5", "João", "José", "Maria", "Ana", "Joselito");
+							.containsExactlyInAnyOrder("Usuário 1", "Usuário 2",
+			                        "Usuário 3", "Usuário 4", "Usuário 5", "João", "José", "Maria", "Ana", "Joselito");
 	}
 	
 	@Test
@@ -115,7 +115,7 @@ public class TestUsuarioRepository {
 	@Test
 	public void testa_contar_usuarios_por_nome() throws ErroAoConectarNaBaseException, ErroAoConsultarBaseException {
 		UsuarioSeletor seletor = new UsuarioSeletor();
-		seletor.setNome("Usuario");
+		seletor.setNome("Usuário");
 		Long total = this.usuarioRepository.contar(seletor);
 		
 		assertThat( total ).isNotNull()
@@ -125,14 +125,14 @@ public class TestUsuarioRepository {
 	@Test
 	public void testa_pesquisar_usuarios_por_id() throws ErroAoConectarNaBaseException, ErroAoConsultarBaseException {
 		UsuarioSeletor seletor = new UsuarioSeletor();
-		seletor.setId(4);
+		seletor.setId(3);
 		List<Usuario> usuarios = this.usuarioRepository.pesquisar(seletor);
 		
 		assertThat( usuarios ).isNotNull()
 							.isNotEmpty()
 							.hasSize(1)
 							.extracting("nome")
-							.containsExactly("Usuario 4");
+							.containsExactly("Usuário 3");
 	}
 	
 

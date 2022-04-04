@@ -1,13 +1,11 @@
 package repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.transaction.RollbackException;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Before;
@@ -24,7 +22,7 @@ import runner.DatabaseHelper;
 @RunWith(AndorinhaTestRunner.class)
 public class TestTweetRepository {
 	
-	private static final int ID_TWEET_CONSULTA = 2;
+	private static final int ID_TWEET_CONSULTA = 1;
 	private static final int ID_USUARIO_CONSULTA = 1;
 	
 	private static final long DELTA_MILIS = 500;
@@ -37,11 +35,7 @@ public class TestTweetRepository {
 	
 	@Before
 	public void setUp() {
-		
 		DatabaseHelper.getInstance("andorinhaDS").execute("dataset/andorinha.xml", DatabaseOperation.CLEAN_INSERT);
-		
-		//this.usuarioRepository = new UsuarioRepository();
-		//this.tweetRepository = new TweetRepository();
 	}
 	
 	@Test
@@ -69,7 +63,7 @@ public class TestTweetRepository {
 		Tweet tweet = this.tweetRepository.consultar(ID_TWEET_CONSULTA);
 		
 		assertThat( tweet ).isNotNull();
-		assertThat( tweet.getConteudo() ).isEqualTo("Minha postagem de teste 2");
+		assertThat( tweet.getConteudo() ).isEqualTo("Minha postagem de teste");
 		assertThat( tweet.getId() ).isEqualTo(ID_TWEET_CONSULTA);
 		assertThat( tweet.getUsuario() ).isNotNull();
 	}
@@ -93,10 +87,7 @@ public class TestTweetRepository {
 		Tweet tweet = this.tweetRepository.consultar(ID_TWEET_CONSULTA);
 		assertThat( tweet ).isNotNull();
 		
-		//this.tweetRepository.remover(ID_TWEET_CONSULTA);
-		
-		assertThatThrownBy(() -> { this.tweetRepository.remover(ID_TWEET_CONSULTA); })
-		.hasCauseInstanceOf(RollbackException.class);
+		this.tweetRepository.remover(ID_TWEET_CONSULTA);
 		
 		Tweet removido = this.tweetRepository.consultar(ID_TWEET_CONSULTA);
 		assertThat( removido ).isNull();
