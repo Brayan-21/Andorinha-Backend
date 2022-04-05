@@ -14,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import model.Comentario;
-import model.dto.ComentarioDTO;
 import model.seletor.ComentarioSeletor;
 import repository.ComentarioRepository;
 
