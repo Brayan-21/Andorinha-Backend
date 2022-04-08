@@ -24,7 +24,7 @@ import runner.DatabaseHelper;
 public class TestUsuarioRepository {
 	
 	private static final int ID_USUARIO_CONSULTA = 1;
-	private static final int ID_USUARIO_SEM_TWEET = 5;
+	private static final int ID_USUARIO_SEM_TWEET = 1;
 
 	@EJB
 	private UsuarioRepository usuarioRepository;
@@ -93,23 +93,22 @@ public class TestUsuarioRepository {
 		
 		assertThat( usuarios ).isNotNull()
 							.isNotEmpty()
-							.hasSize(10)
+							.hasSize(2)
 							.extracting("nome")
-							.containsExactlyInAnyOrder("Usuário 1", "Usuário 2",
-			                        "Usuário 3", "Usuário 4", "Usuário 5", "João", "José", "Maria", "Ana", "Joselito");
+							.containsExactlyInAnyOrder("Usuário 1", "Usuário 2");
 	}
 	
 	@Test
 	public void testa_pesquisar_usuarios_por_nome() throws ErroAoConectarNaBaseException, ErroAoConsultarBaseException {
 		UsuarioSeletor seletor = new UsuarioSeletor();
-		seletor.setNome("Jo");
+		seletor.setNome("Usu");
 		List<Usuario> usuarios = this.usuarioRepository.pesquisar(seletor);
 		
 		assertThat( usuarios ).isNotNull()
 							.isNotEmpty()
-							.hasSize(3)
+							.hasSize(2)
 							.extracting("nome")
-							.containsExactlyInAnyOrder("João", "José", "Joselito");
+							.containsExactlyInAnyOrder("Usuário 1", "Usuário 2");
 	}
 	
 	@Test
@@ -119,20 +118,20 @@ public class TestUsuarioRepository {
 		Long total = this.usuarioRepository.contar(seletor);
 		
 		assertThat( total ).isNotNull()
-							.isEqualTo(5L);
+							.isEqualTo(2L);
 	}
 	
 	@Test
 	public void testa_pesquisar_usuarios_por_id() throws ErroAoConectarNaBaseException, ErroAoConsultarBaseException {
 		UsuarioSeletor seletor = new UsuarioSeletor();
-		seletor.setId(3);
+		seletor.setId(1);
 		List<Usuario> usuarios = this.usuarioRepository.pesquisar(seletor);
 		
 		assertThat( usuarios ).isNotNull()
 							.isNotEmpty()
 							.hasSize(1)
 							.extracting("nome")
-							.containsExactly("Usuário 3");
+							.containsExactly("Usuário 1");
 	}
 	
 

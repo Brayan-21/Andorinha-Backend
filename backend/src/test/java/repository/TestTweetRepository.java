@@ -63,7 +63,7 @@ public class TestTweetRepository {
 		Tweet tweet = this.tweetRepository.consultar(ID_TWEET_CONSULTA);
 		
 		assertThat( tweet ).isNotNull();
-		assertThat( tweet.getConteudo() ).isEqualTo("Minha postagem de teste");
+		assertThat( tweet.getConteudo() ).isEqualTo("Tweet 1 do Usuario 1");
 		assertThat( tweet.getId() ).isEqualTo(ID_TWEET_CONSULTA);
 		assertThat( tweet.getUsuario() ).isNotNull();
 	}
@@ -99,11 +99,10 @@ public class TestTweetRepository {
 		
 		assertThat( tweets ).isNotNull()
 							.isNotEmpty()
-							.hasSize(3)
+							.hasSize(2)
 							.extracting("conteudo")
-							.containsExactlyInAnyOrder("Minha postagem de teste", 
-														"Minha postagem de teste 2", 
-														"Minha postagem de teste 3");
+							.containsExactlyInAnyOrder("Tweet 1 do Usuario 1", 
+														"Tweet 1 do Usuario 2");
 		
 		tweets.stream().forEach(t -> {
 			assertThat(t.getData()).isNotNull().isLessThan(Calendar.getInstance());
