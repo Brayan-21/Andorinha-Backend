@@ -2,6 +2,8 @@
 create table usuario (
 	id integer,
 	nome varchar,
+	login varchar,
+	senha varchar,
 	constraint pk_usuario primary key(id)
 );
 
