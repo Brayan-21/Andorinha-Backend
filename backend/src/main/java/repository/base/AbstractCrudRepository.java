@@ -52,7 +52,7 @@ public abstract class AbstractCrudRepository<T>{
 	}
 	
 	public List<T> listarTodos(){
-		return this.em.createQuery("select t from " + this.persistentClass.getName() + "t").getResultList();
+		return this.em.createQuery("select t from " + this.persistentClass.getName() + " t ").getResultList();
 	}
 	
 	protected EntityQuery<T> createEntityQuery() {
