@@ -4,6 +4,7 @@ create table usuario (
 	nome varchar,
 	login varchar,
 	senha varchar,
+	idade integer,
 	constraint pk_usuario primary key(id)
 );
 

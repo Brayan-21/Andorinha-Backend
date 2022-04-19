@@ -15,7 +15,7 @@ public class UsuarioRepository extends AbstractCrudRepository<Usuario> {
 		try {
 			return super.em.createQuery("select u from Usuario u where u.login = :login and u.senha = :senha", Usuario.class)
 				.setParameter("login", usuario)
-				.setParameter("senha", senha)
+				.setParameter("senha", senha) 
 				.getSingleResult();
 		}
 		catch (NoResultException ex) {

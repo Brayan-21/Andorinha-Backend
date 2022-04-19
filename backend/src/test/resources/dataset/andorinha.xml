@@ -1,7 +1,7 @@
 <dataset>
 
-	<public.usuario id="1" nome="Usuário 1" senha="123" login="usuario 1"/>
-	<public.usuario id="2" nome="Usuário 2" senha="1234" login="usuario 2"/>
+	<public.usuario id="1" nome="Usuário 1" senha="123" login="usuario 1" idade="21"/>
+	<public.usuario id="2" nome="Usuário 2" senha="1234" login="usuario 2" idade="18"/>
 	
 	<public.tweet id="1" id_usuario="1" data_postagem="2020-04-08 15:45:20" conteudo="Tweet 1 do Usuario 1" />
 	<public.tweet id="2" id_usuario="2" data_postagem="2020-05-09 09:10:00" conteudo="Tweet 1 do Usuario 2" />
@@ -9,4 +9,7 @@
 	<public.comentario  id="1" id_usuario="1" id_tweet="1" data_postagem="2020-06-01 15:45:20" conteudo="Comentário 1 do Tweet 1 do Usuario 1" />
 	<public.comentario  id="2" id_usuario="2" id_tweet="2" data_postagem="2020-06-02 15:45:20" conteudo="Comentário 1 do Tweet 1 do Usuario 2" />
 
+	<public.likes id="1" id_usuario="1" id_tweet="1" data_like="2020-06-01 15:45:20"/>
+	<public.likes id="2" id_usuario="2" id_tweet="1" data_like="2020-07-01 16:45:20"/>
+	
 </dataset>

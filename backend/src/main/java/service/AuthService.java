@@ -26,10 +26,13 @@ public class AuthService {
 	@Inject
 	JwtRepository jwtRepository;
 	
-	@POST
+	//@Consumes(Constants.JSON_UTF8)
+	// @Produces(Constants.JSON_UTF8)
+	
+	@POST 
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response login(AuthDTO authDTO) {
 		Usuario user = this.usuarioRepository.login(authDTO.getUsuario(), authDTO.getSenha());
 		if ( user != null ) {
@@ -39,11 +42,10 @@ public class AuthService {
 			
 			String jwt = this.jwtRepository.generateToken(user, expiracao.getTime());
 			
-			return Response.ok(user).header("x-token", jwt).build();
+			return Response.ok(jwt).build(); 
 		}
 		else {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 	}
-
 }

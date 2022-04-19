@@ -6,7 +6,16 @@ public class UsuarioSeletor extends AbstractBaseSeletor {
 	private String nome;
 	private String senha;
 	private String login;
+	private Integer idade;
 	
+	protected Integer getIdade() {
+		return idade;
+	}
+
+	protected void setIdade(Integer idade) {
+		this.idade = idade;
+	}
+
 	protected String getSenha() {
 		return senha;
 	}

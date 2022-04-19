@@ -5,11 +5,20 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 import model.Tweet;
+import model.dto.TweetDTO;
 import model.seletor.TweetSeletor;
 import repository.base.AbstractCrudRepository;
 
 @Stateless
 public class TweetRepository extends AbstractCrudRepository<Tweet> {
+	
+	public Tweet consultar(int id) {
+		Tweet t = super.consultar(id);
+		
+		t.getLikes().size();
+		
+		return t;
+	}
 
 	public List<Tweet> pesquisar(TweetSeletor seletor) {
 		return super.createEntityQuery()
@@ -22,6 +31,17 @@ public class TweetRepository extends AbstractCrudRepository<Tweet> {
 			.setMaxResults(seletor.getLimite())
 			.list();
 	}
+	
+	public List<TweetDTO> pesquisarDTO(TweetSeletor seletor) {
+		return super.createTupleQuery()
+				.select("id", "conteudo", "data", "usuario.id as idUsuario", "usuario.nome as nomeUsuario")
+				.join("usuario")
+				.equal("id", seletor.getId()).like("conteudo", seletor.getConteudo()).equal("data", seletor.getData())
+				.equal("usuario.id", seletor.getIdUsuario())
+				.setFirstResult(seletor.getOffset()).setMaxResults(seletor.getLimite())
+				.list(TweetDTO.class);    
+	}
+	
 	
 	public Long contar(TweetSeletor seletor) {
 		return super.createCountQuery()

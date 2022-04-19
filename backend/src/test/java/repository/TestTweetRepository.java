@@ -66,6 +66,7 @@ public class TestTweetRepository {
 		assertThat( tweet.getConteudo() ).isEqualTo("Tweet 1 do Usuario 1");
 		assertThat( tweet.getId() ).isEqualTo(ID_TWEET_CONSULTA);
 		assertThat( tweet.getUsuario() ).isNotNull();
+		assertThat( tweet.getLikes().size()).isEqualTo(2);
 	}
 	
 	@Test
@@ -96,6 +97,7 @@ public class TestTweetRepository {
 	@Test
 	public void testa_listar_todos_os_tweets() throws ErroAoConectarNaBaseException, ErroAoConsultarBaseException {
 		List<Tweet> tweets = this.tweetRepository.listarTodos();
+	
 		
 		assertThat( tweets ).isNotNull()
 							.isNotEmpty()
@@ -107,6 +109,7 @@ public class TestTweetRepository {
 		tweets.stream().forEach(t -> {
 			assertThat(t.getData()).isNotNull().isLessThan(Calendar.getInstance());
 			assertThat(t.getUsuario()).isNotNull();
+			assertThat(t.getLikes()).isNotNull();
 		});
 	}
 }

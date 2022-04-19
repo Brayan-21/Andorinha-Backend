@@ -22,7 +22,8 @@ public class CorsFilter implements Filter {
 				
 		res.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
 		res.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
-		res.addHeader("Access-Control-Allow-Headers", "Content-Type");
+		res.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Charset");
+		res.addHeader("Access-Control-Allow-Credentials", "true");
 		
 		if ( req.getMethod().equalsIgnoreCase("options") ) {
 			return;

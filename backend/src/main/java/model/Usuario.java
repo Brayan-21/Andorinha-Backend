@@ -32,6 +32,9 @@ public class Usuario implements Principal {
 	@Column(name = "senha")
 	private String senha;
 	
+	@Column(name = "idade")
+	private int idade;
+	
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + "]";
@@ -56,6 +59,14 @@ public class Usuario implements Principal {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	protected int getIdade() {
+		return idade;
+	}
+
+	protected void setIdade(int idade) {
+		this.idade = idade;
 	}
 
 	public String getLogin() {

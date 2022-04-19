@@ -1,20 +1,25 @@
 package model;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="tweet")
@@ -37,8 +42,12 @@ public class Tweet {
 	@JoinColumn(name = "id_usuario", referencedColumnName = "id")
 	private Usuario usuario;
 	
+	@OneToMany(mappedBy = "tweet",fetch = FetchType.LAZY) 
+	@JsonManagedReference
+	private List<Like> likes;
 	
-	@PrePersist
+	
+	@PrePersist 
 	@PreUpdate
 	public void preencheData() {
 		this.data = Calendar.getInstance();
@@ -67,5 +76,13 @@ public class Tweet {
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public List<Like> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<Like> likes) {
+		this.likes = likes;
 	}
 }
