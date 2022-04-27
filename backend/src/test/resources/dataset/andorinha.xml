@@ -12,4 +12,7 @@
 	<public.likes id="1" id_usuario="1" id_tweet="1" data_like="2020-06-01 15:45:20"/>
 	<public.likes id="2" id_usuario="2" id_tweet="1" data_like="2020-07-01 16:45:20"/>
 	
+	<public.deslikes id="1" id_usuario="1" id_tweet="1" data_like="2020-06-01 15:45:20"/>
+	<public.deslikes id="2" id_usuario="2" id_tweet="1" data_like="2020-07-01 16:45:20"/>
+	
 </dataset>

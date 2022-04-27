@@ -13,24 +13,42 @@ import repository.base.AbstractCrudRepository;
 public class TweetRepository extends AbstractCrudRepository<Tweet> {
 	
 	public Tweet consultar(int id) {
+		
 		Tweet t = super.consultar(id);
+				
+		popularAtributosTransientes(t);
 		
+		return t; 
+	}
+	
+	private void popularAtributosTransientes(Tweet t) {
+			
 		t.getLikes().size();
-		
-		return t;
+//		t.getDeslikes().size();
 	}
 
 	public List<Tweet> pesquisar(TweetSeletor seletor) {
-		return super.createEntityQuery()
-			.innerJoinFetch("usuario")
-			.equal("id", seletor.getId())
-			.equal("usuario.id", seletor.getIdUsuario())
-			.like("conteudo", seletor.getConteudo())
-			.equal("data", seletor.getData())
-			.setFirstResult(seletor.getOffset())
-			.setMaxResults(seletor.getLimite())
-			.list();
-	}
+		
+		List<Tweet> tweets;
+		
+		tweets =  super.createEntityQuery() 
+				.innerJoinFetch("usuario")  
+				.equal("id", seletor.getId())
+				.equal("usuario.id", seletor.getIdUsuario())
+				.like("conteudo", seletor.getConteudo())
+				.equal("data", seletor.getData())
+				.setFirstResult(seletor.getOffset())
+				.setMaxResults(seletor.getLimite())
+				.list(); 
+		
+		for(Tweet t : tweets) {
+			
+			popularAtributosTransientes(t);
+		}
+		
+		return tweets;
+		
+	} 
 	
 	public List<TweetDTO> pesquisarDTO(TweetSeletor seletor) {
 		return super.createTupleQuery()

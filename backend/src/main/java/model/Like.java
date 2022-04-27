@@ -37,14 +37,14 @@ public class Like {
 	
 
 	@Column(name = "data_like")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Calendar data;
 
-	protected Calendar getData() {
+	public Calendar getData() {
 		return data;
 	}
 
-	protected void setData(Calendar data) {
+	public void setData(Calendar data) {
 		this.data = data;
 	}
 

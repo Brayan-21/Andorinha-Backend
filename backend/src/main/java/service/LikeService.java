@@ -4,6 +4,7 @@ package service;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -14,7 +15,6 @@ import model.Tweet;
 import model.Usuario;
 import model.exceptions.ErroAoCurtirAPublicacao;
 import repository.LikesRepository;
-import repository.DeslikeRepository;
 import repository.TweetRepository;
 import repository.UsuarioRepository;
 
@@ -22,49 +22,66 @@ import repository.UsuarioRepository;
 public class LikeService {
 	
 	@EJB
-	LikesRepository curtidasRepository;
+	private LikesRepository likesRepository;
 	
 	@EJB
-	DeslikeRepository deslikeRepository;
+	private TweetRepository tweetRepository;
 	
 	@EJB
-	TweetRepository tweetRepository;
+	private UsuarioRepository usuarioRepository;
 	
-	@EJB
-	UsuarioRepository usuarioRepository;
 	
 	@GET
 	@Path("/{id_tweet}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public void curtirTweet (@PathParam("id_tweet") Integer idTweet) throws ErroAoCurtirAPublicacao {
+		
+		
 		Tweet tweet = this.tweetRepository.consultar(idTweet);
 		Usuario usuario = this.usuarioRepository.consultar(1);
 		
-		boolean jaDeuDeslikeTweet = this.deslikeRepository.usuarioDeuDeslikeTweet(tweet, usuario);
-		boolean jaCurtiuTweet = this.curtidasRepository.usuarioCurtiuTweet(tweet, usuario);
+		boolean like = this.likesRepository.usuarioCurtiuTweet(tweet, usuario);
 		
-		if (jaDeuDeslikeTweet) {
-			Like curtida = new Like();
-			curtida.setUsuario(usuario);
-			curtida.setTweet(tweet);
+		try {
 			
-			this.curtidasRepository.inserir(curtida);
-			this.deslikeRepository.remover(tweet, usuario);
+			if(!like) {
+				
+				Like likeTweet = new Like();
+					 likeTweet.setTweet(tweet);
+					 likeTweet.setUsuario(usuario);
+					 
+				
+				likesRepository.inserir(likeTweet);
+			}
 			
-			return;
-		}
-		
-		if (jaCurtiuTweet) {
-			this.curtidasRepository.remover(tweet, usuario);
-		}
-		else {
-			Like curtida = new Like();
-			curtida.setUsuario(usuario);
-			curtida.setTweet(tweet);
-			
-			this.curtidasRepository.inserir(curtida);
+		} catch (Exception e) {
+			throw e;
 		}
 	}
-
+	
+	@POST
+	@Path("/{id_tweet}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Long toltalDeLikesTweet(@PathParam("id_tweet") Integer idTweet)  throws ErroAoCurtirAPublicacao {
+		
+		Tweet tweet = this.tweetRepository.consultar(idTweet);
+		
+		Long like = this.likesRepository.quantidadeDeCurtidasTweet(tweet);
+		
+		try {
+			
+			if(like >= 0) {
+				
+				Like likeTweet = new Like();
+					 likeTweet.setTweet(tweet);
+			}
+			
+			return like; 
+			
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }

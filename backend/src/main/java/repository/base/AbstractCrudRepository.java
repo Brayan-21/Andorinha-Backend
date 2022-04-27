@@ -1,11 +1,6 @@
 package repository.base;
 
 import java.lang.reflect.ParameterizedType;
-import java.sql.Connection;
-//import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,11 +8,6 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
-
-import model.Tweet;
-import model.exceptions.ErroAoConectarNaBaseException;
-import model.exceptions.ErroAoConsultarBaseException;
-import model.seletor.TweetSeletor;
 
 public abstract class AbstractCrudRepository<T>{
 	

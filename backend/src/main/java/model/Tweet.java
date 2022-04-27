@@ -1,7 +1,7 @@
 package model;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,9 +42,16 @@ public class Tweet {
 	@JoinColumn(name = "id_usuario", referencedColumnName = "id")
 	private Usuario usuario;
 	
-	@OneToMany(mappedBy = "tweet",fetch = FetchType.LAZY) 
+	
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_tweet")
 	@JsonManagedReference
-	private List<Like> likes;
+	private Set<Like> likes;
+	
+	@OneToMany(fetch = FetchType.EAGER) 
+	@JoinColumn(name = "id_tweet")
+	@JsonManagedReference
+	private Set<Deslike> deslikes;
 	
 	
 	@PrePersist 
@@ -78,11 +85,19 @@ public class Tweet {
 		this.usuario = usuario;
 	}
 
-	public List<Like> getLikes() {
+	public Set<Like> getLikes() {
 		return likes;
 	}
 
-	public void setLikes(List<Like> likes) {
+	public void setLikes(Set<Like> likes) {
 		this.likes = likes;
+	}
+
+	public Set<Deslike> getDeslikes() {
+		return deslikes;
+	}
+
+	public void setDeslikes(Set<Deslike> deslikes) {
+		this.deslikes = deslikes;
 	}
 }
